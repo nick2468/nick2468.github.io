@@ -2,6 +2,7 @@
 title: jcc
 summary: A small C compiler written in Java. It turns a subset of C into programs that run on Windows and Linux.
 platforms: Windows, Linux
+licence: MIT
 source: https://github.com/nick2468/jcc
 media:
   - file: 01-hello-world.png

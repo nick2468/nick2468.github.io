@@ -2,6 +2,7 @@
 title: Tabiya
 summary: A Windows trainer for chess openings. Study each line, drill it from memory, then play it against an engine.
 platforms: Windows
+licence: MIT
 download: https://github.com/nick2468/Tabiya/releases/latest
 source: https://github.com/nick2468/Tabiya
 media:

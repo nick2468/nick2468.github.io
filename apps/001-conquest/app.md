@@ -2,6 +2,7 @@
 title: Conquest
 summary: A turn-based territory game for the iPad and the web, against up to five computer opponents.
 platforms: iPad, Web browser
+licence: MIT
 play: https://conquest.datacrafter.net
 source: https://github.com/nick2468/Conquest
 media:

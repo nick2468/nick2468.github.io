@@ -2,6 +2,8 @@
 title: PDFluffer
 summary: A PDF reader and editor for Windows with no ads, no account and no nag screens. Fill forms, sign, and fix up scans.
 platforms: Windows
+licence: MIT
+source: https://github.com/nick2468/pdfluffer
 media:
   - file: 01-form.png
     alt: Three PDFs open in tabs. The active one is a form with its fields filled in, and the orange dot on the tab shows it has unsaved changes.

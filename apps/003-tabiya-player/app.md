@@ -2,6 +2,7 @@
 title: Tabiya Player
 summary: A no-frills chess game against Stockfish, with a review afterwards that names every slip.
 platforms: Windows
+licence: MIT
 download: https://github.com/nick2468/TabiyaPlayer/releases/latest
 source: https://github.com/nick2468/TabiyaPlayer
 media:

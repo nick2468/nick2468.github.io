@@ -2,6 +2,7 @@
 title: DataCrafter
 summary: A data-processing workbench that loads, models, aggregates and reports on data as one repeatable run.
 platforms: Desktop, Web browser, Excel
+licence: Copyright
 website: https://www.datacrafter.net
 media:
   - file: 01-workspace.png

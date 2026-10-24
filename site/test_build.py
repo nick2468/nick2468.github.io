@@ -7,7 +7,7 @@ from pathlib import Path
 import build
 
 HOME = """---
-title: Apps I have built
+title: Software by Nick Walker
 name: Test Person
 url: https://example.github.io/
 tagline: A test tagline.
@@ -19,6 +19,7 @@ An intro with [a link](https://example.com).
 APP = """---
 title: Test App
 summary: A test app.
+licence: Copyright
 platforms: Windows, Web browser
 play: https://example.com/play
 source: https://github.com/example/app
@@ -76,6 +77,32 @@ class ParseTest(unittest.TestCase):
         meta, _ = build.parse_front_matter("---\ntitle: x\n---\n", "app.md")
         with self.assertRaisesRegex(build.BuildError, "missing 'summary'"):
             build.check_app(meta, "app.md")
+
+    def test_needs_a_licence_line(self):
+        site = Site()
+        site.app("001-x", APP.replace("licence: Copyright
+", ""))
+        with self.assertRaises(build.BuildError) as err:
+            site.build()
+        self.assertIn("licence", str(err.exception))
+        site.close()
+
+    def test_an_open_source_app_needs_its_source_link(self):
+        site = Site()
+        site.app("001-x", APP.replace("licence: Copyright", "licence: MIT"))
+        with self.assertRaises(build.BuildError) as err:
+            site.build()
+        self.assertIn("source", str(err.exception))
+        site.close()
+
+    def test_rights_show_on_the_card_and_the_page(self):
+        site = Site()
+        site.app("001-x", APP.replace("licence: Copyright", "licence: MIT
+source: https://example.com/x"))
+        out = site.build()
+        self.assertIn("Open source (MIT)", (out / "index.html").read_text(encoding="utf-8"))
+        self.assertIn("Open source under the MIT licence", (out / "x" / "index.html").read_text(encoding="utf-8"))
+        site.close()
 
     def test_links_must_be_https(self):
         meta, _ = build.parse_front_matter(APP.replace("https://example.com/play",

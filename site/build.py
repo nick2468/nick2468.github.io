@@ -28,7 +28,11 @@ MARKER = ".built-by-build-py"
 IMAGE_TYPES = {".png", ".jpg", ".jpeg"}
 VIDEO_TYPES = {".mp4"}
 HOME_KEYS = ("title", "name", "url")
-APP_KEYS = ("title", "summary")
+APP_KEYS = ("title", "summary", "licence")
+
+# Every app says who may use its code. "Copyright" means the source is mine; anything else
+# is the name of an open-source licence, and the app must then link its source.
+CLOSED = "Copyright"
 
 # The links an app can carry, in the order its buttons show. The first one present is
 # the main button. "source" is always last and always plain, because the point of this
@@ -120,7 +124,9 @@ section{margin-bottom:56px}
   text-decoration:none;border:1px solid var(--accent);color:var(--accent)}
 .button.main{background:var(--accent);color:var(--accent-text)}
 .button:hover{filter:brightness(1.08)}
-.platforms{font-size:14px;color:var(--muted);margin-bottom:28px}
+.platforms{font-size:14px;color:var(--muted);margin-bottom:8px}
+.rights-line{margin-bottom:28px}
+.tags li.rights{color:var(--ink);border-color:var(--ink)}
 .about{max-width:700px}
 .media{display:grid;gap:32px;margin-top:40px}
 .media figure{margin:0}
@@ -204,6 +210,8 @@ def check_app(meta, source):
         if not meta.get(key):
             raise BuildError(f"{source}: front matter is missing '{key}'")
     check_https(meta, [key for key, _ in LINKS], source)
+    if meta["licence"] != CLOSED and not meta.get("source"):
+        raise BuildError(f"{source}: an open-source app ('licence: {meta['licence']}') needs its 'source' link")
     for item in meta["media"]:
         if not item.get("file"):
             raise BuildError(f"{source}: a media item has no 'file'")
@@ -354,9 +362,22 @@ def page(home, title, body, prefix="", description="", path="", image=""):
 """
 
 
+def rights_label(meta):
+    """Short form for a card: 'Open source (MIT)' or 'Copyright'."""
+    return CLOSED if meta["licence"] == CLOSED else f"Open source ({meta['licence']})"
+
+
+def rights_sentence(meta, owner):
+    """Long form for an app's page."""
+    if meta["licence"] == CLOSED:
+        return f"Copyright {owner}. The source is not public."
+    return f"Open source under the {meta['licence']} licence. Fork it, build it, change it."
+
+
 def render_tags(meta):
     tags = "".join(f"<li>{html.escape(p)}</li>" for p in platforms_of(meta))
-    return f'<ul class="tags" aria-label="Runs on">{tags}</ul>' if tags else ""
+    rights = f'<li class="rights">{html.escape(rights_label(meta))}</li>'
+    return f'<ul class="tags" aria-label="Runs on, and who may use the code">{rights}{tags}</ul>'
 
 
 def render_card(app):
@@ -432,11 +453,13 @@ def render_app_page(home, app):
     meta = app["meta"]
     platforms = platforms_of(meta)
     runs_on = f'<p class="platforms">Runs on {html.escape(", ".join(platforms))}</p>' if platforms else ""
+    rights = f'<p class="platforms rights-line">{html.escape(rights_sentence(meta, home["name"]))}</p>'
     body = f"""<article>
 <h1>{html.escape(meta["title"])}</h1>
 <p class="lede">{html.escape(meta["summary"])}</p>
 {render_actions(meta)}
 {runs_on}
+{rights}
 <div class="about">
 {paragraphs(app["body"])}
 </div>
