@@ -1,5 +1,6 @@
 """Tests for site/build.py. Run with: python -m unittest discover -s site"""
 
+import re
 import tempfile
 import unittest
 from pathlib import Path
@@ -78,32 +79,6 @@ class ParseTest(unittest.TestCase):
         with self.assertRaisesRegex(build.BuildError, "missing 'summary'"):
             build.check_app(meta, "app.md")
 
-    def test_needs_a_licence_line(self):
-        site = Site()
-        site.app("001-x", APP.replace("licence: Copyright
-", ""))
-        with self.assertRaises(build.BuildError) as err:
-            site.build()
-        self.assertIn("licence", str(err.exception))
-        site.close()
-
-    def test_an_open_source_app_needs_its_source_link(self):
-        site = Site()
-        site.app("001-x", APP.replace("licence: Copyright", "licence: MIT"))
-        with self.assertRaises(build.BuildError) as err:
-            site.build()
-        self.assertIn("source", str(err.exception))
-        site.close()
-
-    def test_rights_show_on_the_card_and_the_page(self):
-        site = Site()
-        site.app("001-x", APP.replace("licence: Copyright", "licence: MIT
-source: https://example.com/x"))
-        out = site.build()
-        self.assertIn("Open source (MIT)", (out / "index.html").read_text(encoding="utf-8"))
-        self.assertIn("Open source under the MIT licence", (out / "x" / "index.html").read_text(encoding="utf-8"))
-        site.close()
-
     def test_links_must_be_https(self):
         meta, _ = build.parse_front_matter(APP.replace("https://example.com/play",
                                                        "http://example.com/play"), "app.md")
@@ -164,6 +139,23 @@ class BuildTest(unittest.TestCase):
         self.repo.build()
         home = (self.repo.out / "index.html").read_text(encoding="utf-8")
         self.assertLess(home.index(">First<"), home.index(">Second<"))
+
+    def test_needs_a_licence_line(self):
+        self.repo.app("001-x", APP.replace("licence: Copyright" + chr(10), ""))
+        with self.assertRaisesRegex(build.BuildError, "missing 'licence'"):
+            self.repo.build()
+
+    def test_an_open_source_app_needs_its_source_link(self):
+        text = chr(10).join(l for l in APP.replace("licence: Copyright", "licence: MIT").split(chr(10)) if not l.startswith("source:"))
+        self.repo.app("001-x", text)
+        with self.assertRaisesRegex(build.BuildError, "needs its 'source' link"):
+            self.repo.build()
+
+    def test_rights_show_on_the_card_and_the_page(self):
+        self.repo.app("001-x", APP.replace("licence: Copyright", "licence: MIT" + chr(10) + "source: https://example.com/x"))
+        self.repo.build()
+        self.assertIn("Open source (MIT)", (self.repo.out / "index.html").read_text(encoding="utf-8"))
+        self.assertIn("Open source under the MIT licence", (self.repo.out / "x" / "index.html").read_text(encoding="utf-8"))
 
     def test_an_app_with_no_pictures_gets_a_letter_cover(self):
         text = APP.split("media:")[0] + "---\nText.\n"
