@@ -45,7 +45,7 @@ LINKS = (
 )
 
 # A folder name is <number>-<name>. The number orders the cards; the name is the page's
-# address, so apps/001-conquest is served at /conquest/.
+# address, so apps/005-conquest is served at /conquest/.
 FOLDER = re.compile(r"([0-9]{3})-([a-z0-9]+(?:-[a-z0-9]+)*)")
 
 STYLE = """

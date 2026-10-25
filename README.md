@@ -21,9 +21,9 @@ publishes it at `https://nick2468.github.io` each time `main` is pushed.
 
 ## Add or change an app
 
-1. Make a folder under `apps/`, named `<number>-<name>`, for example `006-my-game`. The
+1. Make a folder under `apps/`, named `<number>-<name>`, for example `008-my-game`. The
    number sets the card's place on the home page. The name becomes the page's address, so
-   `006-my-game` is served at `/my-game/`.
+   `008-my-game` is served at `/my-game/`.
 2. Put the screenshots and clips in that folder.
 3. Write `app.md` in the folder. Copy an existing one as a start.
 4. Build and look at it (see "Preview on this machine").
