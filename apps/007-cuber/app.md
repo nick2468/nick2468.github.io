@@ -8,13 +8,19 @@ source: https://github.com/nick2468/Cuber
 media:
   - file: 01-entering.png
     alt: A scrambled cube entered on the screen, with the colour picker beside it and the three methods to choose from in the box below.
+  - file: sketch.jpg
+    alt: My son's original design sketch, in pencil. A title bar with Reset and a light bulb, the cube, six colours to pick from, and a box where the computer types in what to do.
   - file: 02-beginner.png
     alt: The beginner method. The box names the first stage, the white cross, says what it is for, and marks the first move to make.
   - file: 03-fewest-light.png
     alt: Fewest moves, in the light theme. The same ten-turn scramble comes back as ten moves, each a letter and a plain sentence.
 ---
 My son drew the screen for this one on a sheet of paper: a cube, a row of colours, and a
-box where "the computer types in what to do". Cuber is that drawing, built. You hold your
+box where "the computer types in what to do". Cuber is that drawing, built. His sketch is
+the second picture below, and the brief I gave the AI from it is
+[Cuber-brief.txt](https://github.com/nick2468/Cuber/blob/main/Cuber-brief.txt).
+
+You hold your
 scrambled cube, paint its colours on to the cube on the screen by clicking (or by a
 right-click menu, or a long press on a touch screen), then turn the screen cube round to
 do the other three faces. The colours are checked as you go, so a sticker that cannot be
