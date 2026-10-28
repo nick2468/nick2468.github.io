@@ -30,3 +30,7 @@ with the OCR built into Windows, so you can select and copy its text.
 
 Under the skin it is the same PDF engine as Firefox, inside a small Windows app. It never
 touches the network: no telemetry, no update checks, nothing uploaded.
+
+The installer is signed with a code signing certificate, so Windows names the publisher
+as Open Source Developer Nicholas Walker. Windows SmartScreen may still warn about a new
+release for a while, until it builds up a reputation.
