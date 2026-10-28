@@ -22,5 +22,6 @@ into the lines you have studied.
 A checker plays every line the notes name on a real board. That is how a note that
 recommends an illegal move gets caught before anyone trusts it.
 
-The installer is not signed with a code signing certificate, so Windows warns that the
-publisher is unknown and asks whether to continue. That warning is expected.
+The installer is signed with a code signing certificate, so Windows names the publisher
+as Open Source Developer Nicholas Walker. Windows SmartScreen may still warn about a new
+release for a while, until it builds up a reputation.

@@ -38,5 +38,6 @@ beginner method is the layer-by-layer method every guide teaches, about 170 move
 seven named stages, each stage explained and each well-known sequence named as it is
 used, so you learn the method rather than just following it.
 
-The installer is not signed with a code signing certificate, so Windows warns that the
-publisher is unknown and asks whether to continue. That warning is expected.
+The installer is signed with a code signing certificate, so Windows names the publisher
+as Open Source Developer Nicholas Walker. Windows SmartScreen may still warn about a new
+release for a while, until it builds up a reputation.
